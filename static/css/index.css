@@ -1,0 +1,176 @@
+body {
+  font-family: 'Lato';
+}
+
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.dnerf {
+  font-variant: small-caps;
+}
+
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+
+.teaser {
+  font-family: 'Lato', sans-serif;
+}
+
+.publication-title {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 900;
+  margin-top: 1.25rem;
+  line-height: 1.1;
+}
+
+.publication-banner {
+  max-height: parent;
+
+}
+
+.publication-banner video {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  object-fit: fit;
+}
+
+.publication-header .hero-body {
+}
+
+.publication-authors {
+    font-family: 'Lato';
+}
+
+.publication-venue {
+    color: #555;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.publication-awards {
+    color: #ff3860;
+    width: fit-content;
+    font-weight: bolder;
+}
+
+.publication-authors a {
+   color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.publication-banner img {
+}
+
+.publication-authors {
+  /*color: #4286f4;*/
+}
+
+.publication-video {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+
+    overflow: hidden;
+    border-radius: 10px !important;
+}
+
+.publication-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.publication-body img {
+}
+
+/* make video blocks same-height and align videos to bottom */
+.columns.is-centered > .column .content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.columns.is-centered > .column .content h3.title {
+    margin-bottom: 0.5rem;
+    min-height: 3.5rem; /* keep title area consistent */
+}
+.columns.is-centered > .column .content video {
+    margin-top: auto; /* push video to bottom */
+    width: 100%;
+    height: auto;
+    max-height: 240px; /* adjust as needed */
+}
+
+.title.is-3 {
+    position: relative; /* <-- add this */
+    font-family: 'Lexend', sans-serif;
+}
+
+.title.is-3::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 64px;
+    height: 4px;
+    background: #4a90e2;
+    border-radius: 2px;
+    display: block;
+    z-index: 1;
+}
+*, ::after, ::before {
+    box-sizing: inherit;
+}
+
+#teaser {
+    display: block;
+    margin: 0 auto;
+    width: 900px !important;
+    max-width: 100%;
+    height: auto !important;
+    object-fit: cover;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.columns.is-centered > .column {
+    padding: 2px;
+}
+
+.columns.is-centered > .column .content video,
+.columns.is-centered > .column video {
+    border-radius: 12px;
+    padding: 2px;
+    overflow: hidden; /* ensures children respect the radius */
+    display: block;
+    object-fit: cover; /* optional: keeps aspect while filling */
+}
+
+.mb-3 {
+  font-weight: bold;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
