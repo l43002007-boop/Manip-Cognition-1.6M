@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Your project description here">
+  <meta name="keywords" content="your, keywords, here">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data</title>
+
+  <!-- Add own analytics if needed -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700;900&family=Lexend:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/your-favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <img src="./static/images/1.6m.png" alt="1.6m">
+            <h1 class="title is-1 publication-title">Manip-Cognition-1.6M</h1>
+
+            <!-- <h1 class="title is-1 publication-title">
+              <img src="./static/images/_20260129144959_85.jpg" alt="GSR logo" width="36" height="36" style="vertical-align:middle; margin-right:0.5rem;">
+              Learning Structured Reasoning for Embodied Manipulation
+            </h1> -->
+            
+            <!-- <h1 class="title is-1 publication-title">
+              <img src="./static/images/title_2.png" alt="GSR logo" width="1500" height="1500" style="vertical-align:middle; margin-right:0.5rem;">
+            </h1> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="rows">
+        <div class="rows is-centered">
+          <div class="column is-centered has-text-centered">
+            <h2 class="title is-3">
+              Abstract
+            </h2>
+            <div class="content has-text-justified">
+              <p>
+                Despite rapid progress, embodied agents still struggle with long-horizon manipulation that requires
+                maintaining spatial consistency, causal dependencies, and goal constraints. A key limitation of existing
+                approaches is that task reasoning is implicitly embedded in high-dimensional latent representations,
+                making it challenging to separate task structure from perceptual variability.
+                We introduce Grounded Scene-graph Reasoning (GSR), a structured reasoning paradigm that explicitly
+                models world-state evolution as transitions over semantically grounded scene graphs. By reasoning
+                step-wise over object states and spatial relations, rather than directly mapping perception to actions,
+                GSR enables explicit reasoning about action preconditions, consequences, and goal satisfaction in a
+                physically grounded space.
+                To support learning such reasoning, we construct Manip-Cognition-1.6M, a large-scale dataset that
+                jointly supervises scene grounding, causal action reasoning, and goal-conditioned planning. Extensive
+                evaluations across RLBench, LIBERO, GSR-benchmark, and real-world robotic tasks show that GSR
+                significantly improves zero-shot generalization and long-horizon task completion over prompting-based
+                baselines.
+                These results highlight explicit world-state representations as a key inductive bias for scalable
+                embodied reasoning.
+              </p>
+              <img src="./static/images/Method-Manip-Cognition dataset examples.png" width="100%"
+                alt="Method-Manip-Cognition dataset examples">
+            </div>
+
+            <br>
+
+            <h2 class="title is-3">
+              Dataset format
+            </h2>
+            <p style="text-align: left;">The <strong>Manip-Cognition-1.6M</strong> dataset follows a hierarchical structure designed to align multi-modal inputs with symbolic world states. Each sample encapsulates a complete task trajectory:</p>
+            <div class="content has-text-justified">
+              <pre><code>└── data/
+    ├── sample_id             # Unique identifier for each trajectory
+    ├── video_id              # Source ego-centric video
+    ├── task_goal             # High-level task instruction 
+    ├── observations/         # [List] Keyframe timestamps
+    ├── captions/             # [List] Temporal language descriptions 
+    ├── scene_graphs/         # [List] Structured spatial representations
+    │   ├── nodes             # Object entities and states
+    │   └── edges             # Spatial/functional relationships
+    └── next_actions/         # [List] Sequence of atomic actions</code></pre>
+            </div>
+
+            <br>
+
+            <h2 class="title is-3">
+              Dataset construction
+            </h2>
+            <div class="content has-text-justified">
+              <p style="text-align: left;">The <strong>Manip-Cognition-1.6M</strong> dataset is constructed by applying multi-stage augmentation to base egocentric demonstrations, resulting in a large-scale structured dataset for embodied reasoning:</p>
+              <table class="table is-striped is-fullwidth" style="text-align: left;">
+                <thead>
+                  <tr>
+                    <th>Data Modality</th>
+                    <th>Base Size</th>
+                    <th>Augmentation Methods</th>
+                    <th>Multiplier</th>
+                    <th>Final Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Scene Abstraction Data</td>
+                    <td>856</td>
+                    <td>Paraphrasing (3) × Shuffling (3) × Swapping (2)</td>
+                    <td>18×</td>
+                    <td>≈ 15,000</td>
+                  </tr>
+                  <tr>
+                    <td>Action Planning Data</td>
+                    <td>36,000</td>
+                    <td>Shuffling (3) × Swapping (2) × Rephrasing (2) × 3 Tasks</td>
+                    <td>36×</td>
+                    <td>1,296,000</td>
+                  </tr>
+                  <tr>
+                    <td>Goal Interpretation Data</td>
+                    <td>6,000</td>
+                    <td>Shuffling (3) × Swapping (2) × Rephrasing (2) × End-state (4)</td>
+                    <td>48×</td>
+                    <td>288,000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="column is-centered">
+          <h2 class="title is-3 has-text-centered">
+            Examples
+          </h2>
+          <br>
+
+          <h2 class="title is-4">
+            Scene Abstraction Data
+          </h2>
+          <div class="content has-text-justified">
+            <p><strong>Question:</strong></p>
+            <div style="display: flex; justify-content: space-between;">
+              <img src="./static/images/1.jpg" alt="1" style="width: 23%;">
+              <img src="./static/images/2.jpg" alt="2" style="width: 23%;">
+              <img src="./static/images/3.jpg" alt="3" style="width: 23%;">
+              <img src="./static/images/4.jpg" alt="4" style="width: 23%;">
+            </div>
+            <br>
+
+            <pre><code>{
+  "task_goal": "Take out celery, container, and tofu",
+  "captions": [
+    "The fridge door is closed and being grasped by a hand on its right side.",
+    "The celery is located on the middle refrigerator shelf, and a blue container is also on top of the middle shelf.",
+    "The container is on the middle refrigerator shelf, and the celery is on the left hand.",
+    "The tofu is in the refrigerator, located in the lower compartment, next to a person holding celery and a container with a blue lid."
+  ]
+}</code></pre>
+
+            <br>
+
+            <p><strong>Answer:</strong></p>
+            <pre><code>{
+  "scene_graphs": [
+    {
+      "nodes": ["fridge", "hand"],
+      "edges": ["hand(RightGrasping)fridge"]
+    },
+    {
+      "nodes": ["celery", "middle refrigerator shelf", "hand"],
+      "edges": [
+        "celery(in)middle refrigerator shelf",
+        "hand(RightGrasping)celery"
+      ]
+    },
+    {
+      "nodes": ["container", "middle refrigerator shelf", "celery", "hand"],
+      "edges": [
+        "container(in)middle refrigerator shelf",
+        "hand(LeftGrasping)celery"
+      ]
+    },
+    {
+      "nodes": ["tofu", "refrigerator", "lower compartment", "celery", "container", "hand"],
+      "edges": [
+        "tofu(in)lower compartment",
+        "lower compartment(in)refrigerator",
+        "hand(LeftGrasping)celery",
+        "hand(LeftGrasping)container"
+      ]
+    }
+  ]
+}</code></pre>
+          </div>
+
+          <br>
+
+          <h2 class="title is-4">
+            Action Planning Data
+          </h2>
+          <div class="content has-text-justified">
+            <p class="is-size-5"><strong>(a) Goal-conditioned Planning</strong></p>
+            <p><strong>Question:</strong></p>
+            <div style="display: flex;">
+              <img src="./static/images/1.jpg" style="height: 100%; width: auto; margin-right: 10px;">
+              <pre style="margin-left: auto;"><code>{
+  "task_goal": "Take out celery, container, and tofu",
+  "scene_graphs": [
+    {
+      "nodes": ["fridge(close)", "hand"],
+      "edges": ["hand(RightGrasping)fridge"]
+    }
+  ]
+}</code></pre>
+            </div>
+
+            <br>
+
+            <p><strong>Answer:</strong></p>
+            <pre><code>{ "action": "open fridge" }</code></pre>
+            <br>
+            <p class="is-size-5"><strong>(b) Forward Scene Prediction</strong></p>
+            <p><strong>Question:</strong></p>
+            <div style="display: flex;">
+              <img src="./static/images/1.jpg" style="height: 100%; width: auto; margin-right: 10px;">
+              <pre style="margin-left: auto;"><code>{
+  "task_goal": "Take out celery, container, and tofu",
+  "scene_graph": {
+    "nodes": ["fridge(close)", "hand"],
+    "edges": ["hand(RightGrasping)fridge"]
+  },
+  "action": "open fridge"
+}</code></pre>
+            </div>
+
+            <br>
+            <p><strong>Answer:</strong></p>
+            <pre><code>{
+  "scene_graph": {
+    "nodes": ["fridge(open)", "tofu", "celery", "container"],
+    "edges": [
+      "celery(in)fridge",
+      "container(in)fridge",
+      "tofu(in)fridge"
+    ]
+  }
+}</code></pre>
+            <br>
+            <p class="is-size-5"><strong>(c) Inverse Action Reasoning</strong></p>
+            <p><strong>Question:</strong></p>
+            <div style="display: flex; justify-content: space-between;">
+              <img src="./static/images/1.jpg" alt="1" style="width: 23%;">
+              <img src="./static/images/2.jpg" alt="2" style="width: 23%;">
+              <img src="./static/images/3.jpg" alt="3" style="width: 23%;">
+              <img src="./static/images/4.jpg" alt="4" style="width: 23%;">
+            </div>
+            <br>
+            <pre><code>{
+  "task_goal": "Take out celery, container, and tofu",
+  "start_scene_graph": {
+    "nodes": ["fridge(closed)", "hand"],
+    "edges": ["hand(RightGrasping)fridge"]
+  },
+  "goal_scene_graph": {
+    "nodes": ["tofu", "celery", "container", "hand", "fridge(open)"],
+    "edges": [
+      "hand(Grasping)tofu",
+      "hand(Grasping)celery",
+      "hand(Grasping)container"
+    ]
+  }
+}</code></pre>
+
+            <br>
+
+            <p><strong>Answer:</strong></p>
+            <pre><code>{ "action_plan": ["open fridge", "take celery", "take container", "take tofu"] }</code></pre>
+          </div>
+
+          <br>
+
+          <h2 class="title is-4">
+            Goal Interpretation Data
+          </h2>
+          <div class="content has-text-justified">
+            <p><strong>Question:</strong></p>
+            <div style="display: flex; justify-content: space-between;">
+              <img src="./static/images/1.jpg" alt="1" style="width: 23%;">
+              <img src="./static/images/2.jpg" alt="2" style="width: 23%;">
+              <img src="./static/images/3.jpg" alt="3" style="width: 23%;">
+              <img src="./static/images/4.jpg" alt="4" style="width: 23%;">
+            </div>
+            <br>
+            <pre><code>{
+  "task_goal": "Take out celery, container, and tofu",
+  "start_scene_graph": {
+    "nodes": ["fridge", "hand"],
+    "edges": ["hand(RightGrasping)fridge"]
+  }
+}</code></pre>
+
+            <br>
+
+            <p><strong>Answer:</strong></p>
+            <pre><code>{
+  "goal_scene_graph": {
+    "nodes": ["tofu", "celery", "container", "hand", "fridge(open)"],
+    "edges": [
+      "hand(Grasping)tofu",
+      "hand(Grasping)celery",
+      "hand(Grasping)container"
+    ]
+  }
+}</code></pre>
+          </div>
+
+        </div>
+
+        <br>
+
+        <h2 class="title is-3 has-text-centered">More data is coming soon</h2>
+
+        <br><br>
+
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+    </div>
+  </footer>
+
+</body>
+
+</html>
